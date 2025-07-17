@@ -4,12 +4,8 @@
 
 GLuint init_renderer(GLuint grid_width, GLuint grid_height, GLuint screen_width, GLuint screen_height, GLuint cell_size)
 {
-    GLfloat data[] = {
-
-    };
-
-    /* width * height cells, each with 6 vertices, each with 3 floats */
-    /*GLfloat data[3 * 6 * grid_width * grid_height];
+    /*width * height cells, each with 6 vertices, each with 3 floats */
+    GLfloat data[3 * 6 * grid_width * grid_height];
 
     GLuint x = 0;
     GLuint y = 0;
@@ -31,7 +27,7 @@ GLuint init_renderer(GLuint grid_width, GLuint grid_height, GLuint screen_width,
     
         if(x == screen_width && y == (screen_height - cell_size) / cell_size)
             flag = 0;
-    }*/
+    }
 
     GLuint VAO;
     glGenVertexArrays(1, &VAO);

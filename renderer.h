@@ -6,6 +6,6 @@
 /* rendering related functionality */
 
 /* Returns the VAO used for rendering which is initialised with the quad representing the grid */
-GLuint init_renderer(GLuint grid_width, GLuint grid_height, GLuint screen_width, GLuint screen_height, GLuint cell_size);
+GLuint init_renderer();
 
 #endif

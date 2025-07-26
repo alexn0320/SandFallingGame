@@ -73,11 +73,26 @@ int main()
         return 0;
     }
 
-    /* Shader loading */
+    /* OpenGL related initialisations */
     GLuint program = shader_handler();
     GLuint VAO = init_renderer();
 
+    tex_buffer buf = {
+        .tex_width = SCREEN_WIDTH,
+        .tex_heigh = SCREEN_HEIGHT
+    };
+    init_tex_buffer(&buf);
+
+    uniforms unif;
+    init_uniforms(program, &unif);
+
+    /* Application related initialisations */
     cell *grid = grid_init();
+
+    uint8_t aux = 1;
+
+    glBindTexture(GL_TEXTURE_2D, buf.tex_input);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 2, 2, 1, 1, GL_RED, GL_UNSIGNED_BYTE, &aux);
 
     /* Game loop */
     while (!glfwWindowShouldClose(window))
@@ -85,6 +100,8 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(program);
+        glUniform1i(unif.tex_input, 0);
+        glBindTexture(GL_TEXTURE_2D, buf.tex_input);
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 6);
 

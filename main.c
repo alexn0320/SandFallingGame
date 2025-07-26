@@ -5,9 +5,9 @@
 
 #include <GLFW/glfw3.h>
 
-#define WIDTH (800U)
-#define HEIGHT (800U)
-#define FPS (60U)
+#define WIDTH   (800U)
+#define HEIGHT  (800U)
+#define FPS     (60U)
 
 const char *title = "Sand Falling";
 
@@ -44,6 +44,7 @@ GLuint shader_handler()
 
 int main()
 {
+    /* GLFW initialization */
     if (!glfwInit())
     {
         printf("Failed to init GLFW\n");

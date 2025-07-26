@@ -4,6 +4,7 @@
 
 GLuint init_renderer()
 {
+    /* Fullscreen texture */
     GLfloat data[] = {
         -1.f, -1.f, 1.f,
         1.f, -1.f, 1.f,
@@ -30,6 +31,7 @@ GLuint init_renderer()
 
 void init_tex_buffer(tex_buffer *buffer)
 {
+    /* Framebuffers are used to get the output texture data to the CPU */
     glGenTextures(1, &buffer->tex_input);
     glGenTextures(1, &buffer->tex_output);
 

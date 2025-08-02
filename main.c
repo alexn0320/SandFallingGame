@@ -11,6 +11,13 @@
 
 const char *title = "Sand Falling";
 
+void swap(GLuint *a, GLuint *b)
+{
+    GLuint aux = *a;
+    *a = *b;
+    *b = aux;
+}
+
 GLuint shader_handler()
 {
     /* Vertex shader */
@@ -40,6 +47,16 @@ GLuint shader_handler()
     GLint shaders[2] = {vert, frag};
 
     return get_program(shaders, 2);
+}
+
+void do_texture_framebuffer(GLuint program, GLuint VAO, tex_buffer buf, uniforms unif)
+{
+    glUseProgram(program);
+    glBindFramebuffer(GL_FRAMEBUFFER, buf.FBO_output);
+    glUniform1i(unif.tex_input, 0);
+    glBindTexture(GL_TEXTURE_2D, buf.tex_input);
+    glBindVertexArray(VAO);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
 int main()
@@ -98,13 +115,19 @@ int main()
     /* Game loop */
     while (!glfwWindowShouldClose(window))
     {
+        do_texture_framebuffer(program, VAO, buf, unif);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(program);
         glUniform1i(unif.tex_input, 0);
-        glBindTexture(GL_TEXTURE_2D, buf.tex_input);
+        glBindTexture(GL_TEXTURE_2D, buf.tex_output);
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        swap(&buf.tex_input, &buf.tex_output);
+        swap(&buf.FBO_input, &buf.FBO_output);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

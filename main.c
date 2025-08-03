@@ -75,9 +75,14 @@ int main()
 
     /* Shader loading */
     GLuint program = shader_handler();
-    GLuint VAO = init_renderer(10, 10, 40, 40, 4);
+    renderer r = init_renderer();
 
     cell *grid = grid_init();
+
+    uint8_t x = 1;
+
+    glBindTexture(GL_TEXTURE_2D, r.texture);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 10, 10, 1, 1, GL_RED, GL_UNSIGNED_BYTE, &x);
 
     /* Game loop */
     while (!glfwWindowShouldClose(window))
@@ -85,7 +90,10 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(program);
-        glBindVertexArray(VAO);
+        glUniform1i(glGetUniformLocation(program, "tex"), 0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, r.texture);
+        glBindVertexArray(r.VAO);
         glDrawArrays(GL_TRIANGLES, 0, 6);
 
         glfwSwapBuffers(window);

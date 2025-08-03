@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "shader.h": "c",
-        "random": "c"
+        "random": "c",
+        "cstring": "c"
     }
 }

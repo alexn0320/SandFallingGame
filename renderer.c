@@ -2,36 +2,16 @@
 
 #include <stdio.h>
 
-GLuint init_renderer(GLuint grid_width, GLuint grid_height, GLuint screen_width, GLuint screen_height, GLuint cell_size)
+renderer init_renderer()
 {
     GLfloat data[] = {
-
+        -1.f, -1.f, 1.f,
+        1.f, -1.f, 1.f,
+        1.f, 1.f, 1.f,
+        1.f, 1.f, 1.f,
+        -1.f, -1.f, -1.f,
+        -1.f, 1.f, 1.f
     };
-
-    /* width * height cells, each with 6 vertices, each with 3 floats */
-    /*GLfloat data[3 * 6 * grid_width * grid_height];
-
-    GLuint x = 0;
-    GLuint y = 0;
-    GLuint flag = 1;
-
-    while(flag)
-    {
-        if(x == screen_width)
-        {
-            x = 0;
-            y++;
-        }
-
-        data[y * grid_width + x / cell_size] = x;
-        data[y * grid_width + (x + 1) / cell_size] = x + cell_size;
-        data[(y + 1) * grid_width + (x + 1) / cell_size] = x + cell_size;
-
-        x += cell_size;
-    
-        if(x == screen_width && y == (screen_height - cell_size) / cell_size)
-            flag = 0;
-    }*/
 
     GLuint VAO;
     glGenVertexArrays(1, &VAO);
@@ -45,5 +25,20 @@ GLuint init_renderer(GLuint grid_width, GLuint grid_height, GLuint screen_width,
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
     glEnableVertexAttribArray(0);
 
-    return VAO;
+    GLfloat dummy_data[400 * 400];
+    memset(dummy_data, 0.f, 400 * 400);
+
+    GLuint texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, 400, 400, 0, GL_RED, GL_UNSIGNED_BYTE, dummy_data);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    renderer r = {
+        .VAO = VAO,
+        .texture = texture
+    };
+
+    return r;
 }

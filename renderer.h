@@ -14,5 +14,6 @@ typedef struct
 
 /* Returns the VAO used for rendering which is initialised with the quad representing the grid */
 renderer init_renderer();
+void render(uint8_t *texture_grid, GLuint texture, GLuint width, GLuint height);
 
 #endif

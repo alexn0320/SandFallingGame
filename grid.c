@@ -20,3 +20,10 @@ cell *grid_init()
 
     return grid;
 }
+
+void move_cell(GLuint grid_width, GLuint grid_height, GLuint old_x, GLuint old_y, GLuint new_x, GLuint new_y)
+{
+    uint8_t aux = texture_grid[old_y * grid_height + old_x];
+    texture_grid[old_y * grid_height + old_x] = 0;
+    texture_grid[new_y * grid_height + new_x] = aux;
+}

@@ -42,3 +42,9 @@ renderer init_renderer()
 
     return r;
 }
+
+void render(uint8_t *texture_grid, GLuint texture, GLuint width, GLuint height)
+{
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, texture_grid);
+}

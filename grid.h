@@ -45,7 +45,11 @@ typedef struct
     };
 } cell;
 
+/* byte grid for the shader */
+extern uint8_t texture_grid[GRID_WIDTH * GRID_HEIGHT];
+
 cell *grid_init();
-void grid_set();
+/* moves a cell from one position to another, through air */
+void move_cell(GLuint grid_width, GLuint grid_height, GLuint old_x, GLuint old_y, GLuint new_x, GLuint new_y);
 
 #endif

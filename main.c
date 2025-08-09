@@ -10,6 +10,7 @@
 #define FPS     (60U)
 
 const char *title = "Sand Falling";
+uint8_t texture_grid[GRID_WIDTH * GRID_HEIGHT];
 
 GLuint shader_handler()
 {
@@ -78,11 +79,10 @@ int main()
     renderer r = init_renderer();
 
     cell *grid = grid_init();
+    memset(texture_grid, 0, GRID_WIDTH * GRID_HEIGHT);
 
-    uint8_t x = 1;
-
-    glBindTexture(GL_TEXTURE_2D, r.texture);
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 10, 10, 1, 1, GL_RED, GL_UNSIGNED_BYTE, &x);
+    int x = 1, y = 1;
+    texture_grid[y * GRID_HEIGHT + x] = 1;
 
     /* Game loop */
     while (!glfwWindowShouldClose(window))
@@ -92,9 +92,17 @@ int main()
         glUseProgram(program);
         glUniform1i(glGetUniformLocation(program, "tex"), 0);
         glActiveTexture(GL_TEXTURE0);
+        render(texture_grid, r.texture, GRID_WIDTH, GRID_HEIGHT);
         glBindTexture(GL_TEXTURE_2D, r.texture);
         glBindVertexArray(r.VAO);
         glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        move_cell(GRID_WIDTH, GRID_HEIGHT, x, y, x, y + 1);
+
+        if(y >= 390)
+            y = 390;
+        else
+            y++;
 
         glfwSwapBuffers(window);
         glfwPollEvents();
